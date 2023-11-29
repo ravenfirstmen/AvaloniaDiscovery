@@ -9,21 +9,79 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="VaultUnsealPoc"
         Width="600"
+        MinWidth="600"
         Height="400"
+        MinHeight="400"
+        ExtendClientAreaToDecorationsHint="True"
         WindowStartupLocation="CenterScreen">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Login" Command="{Binding LoginCommand}"></Button>
-            <Button Content="Logout" Command="{Binding LogoutCommand}"></Button>
+    <Grid MinWidth="400" RowDefinitions="Auto,Auto,Auto,*,Auto" Margin="8">
+        <Label Grid.Row="0"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="8"
+               Content="Yubikey" />
+        <TextBox Grid.Row="1"
+                 HorizontalAlignment="Stretch"
+                 Margin="8,0"
+                 Watermark="Info about Yubikey..."
+                 Text="{Binding Yubikey}"
+                 VerticalAlignment="Top"
+                 IsVisible="True"
+                 IsReadOnly="True" />
+        <Label Grid.Row="2"
+               FontSize="24"
+               FontWeight="Bold"
+               Margin="8"
+               Content="Token" HorizontalAlignment="Stretch" />
+        <Grid Grid.Row="3" RowDefinitions="*" ColumnDefinitions="*, *" VerticalAlignment="Stretch">
+            <TextBox Grid.Row="0" Grid.Column="0"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch"
+                     Margin="8,0"
+                     Watermark="Info about token..."
+                     MinHeight="200"
+                     Text="{Binding TokenInfo}"
+                     IsVisible="True"
+                     IsReadOnly="True" />
+            
+            <Grid Grid.Row="0" Grid.Column="1" RowDefinitions="*, *" >
+                <TextBox Grid.Row="0" 
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Margin="8,0, 8, 8"
+                         Watermark="Info about access token..."
+                         Text="{Binding AccessToken}"
+                         IsVisible="True"
+                         IsReadOnly="True" TextWrapping="Wrap" />
+                
+                <TextBox Grid.Row="1" 
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Margin="8,8, 8, 0"
+                         Watermark="Info about identity token..."
+                         Text="{Binding IdentityToken}"
+                         IsVisible="True"
+                         IsReadOnly="True" TextWrapping="Wrap" />                
+            </Grid>
+            
+        </Grid>
+       
+
+        <StackPanel
+            Grid.Row="4"
+            HorizontalAlignment="Right"
+            Spacing="8"
+            Margin="0,8,8,8"
+            Orientation="Horizontal">
+            <Button Content="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding !LoggedIn}" Width="100" HorizontalContentAlignment="Center" />
+            <Button Content="Logout" Command="{Binding LogoutCommand}" IsEnabled="{Binding LoggedIn}" Width="100" HorizontalContentAlignment="Center" />
         </StackPanel>
-        <Label Content="Token info"></Label>
-        <TextBox Text="{Binding TokenInfo}" Margin="20" MinHeight="200" IsReadOnly="True"></TextBox>
-        <Label Content="Yubikey"></Label>
-        <TextBox Text="{Binding Yubikey}" Margin="20" IsReadOnly="True"></TextBox>
-    </StackPanel>
+
+    </Grid>
+
 </Window>
